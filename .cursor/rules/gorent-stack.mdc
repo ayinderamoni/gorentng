@@ -1,0 +1,23 @@
+---
+description: Next.js 16, Supabase, and UI conventions for GoRent.ng
+alwaysApply: true
+---
+
+# Stack
+
+- Read `node_modules/next/dist/docs/` before new Next APIs. This is Next 16.
+- `params` and `searchParams` are **Promises** — always `await` them.
+- Use `proxy.ts` (not deprecated `middleware.ts`) if request interception is needed.
+- Mutations: Server Actions with `'use server'`. Authorize the current user inside every action.
+- Demo data lives in `lib/store` when Supabase env is missing. Do not invent a second persistence path.
+- UI: existing cream/ink/teal/persimmon tokens and `font-display` / `font-head` / `font-body`. Do not restyle as a generic real-estate template.
+
+```tsx
+// ❌
+export default function Page({ params }: { params: { slug: string } }) {}
+
+// ✅
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+}
+```

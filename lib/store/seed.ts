@@ -1,0 +1,230 @@
+import type {
+  Item,
+  ItemBooking,
+  ItemMedia,
+  ListingMedia,
+  Profile,
+  Property,
+  Review,
+  Tenancy,
+} from "@/lib/types";
+
+export const DEMO_PASSWORD_HINT = "Use any password with a demo email, or create a new account.";
+
+export const seedProfiles: Profile[] = [
+  {
+    id: "user-amaka",
+    email: "amaka@gorent.ng",
+    fullName: "Amaka Okonkwo",
+    phone: "0803 111 2200",
+    avatarUrl: "/images/testimonial-adaeze.jpg",
+    roles: ["landlord", "lender"],
+    createdAt: "2025-01-12T09:00:00.000Z",
+  },
+  {
+    id: "user-ibrahim",
+    email: "ibrahim@gorent.ng",
+    fullName: "Ibrahim Bello",
+    phone: "0809 444 1188",
+    avatarUrl: null,
+    roles: ["landlord"],
+    createdAt: "2025-02-03T09:00:00.000Z",
+  },
+  {
+    id: "user-chinedu",
+    email: "chinedu@gorent.ng",
+    fullName: "Chinedu Eze",
+    phone: "0814 222 9090",
+    avatarUrl: null,
+    roles: ["tenant", "renter"],
+    createdAt: "2025-03-18T09:00:00.000Z",
+  },
+  {
+    id: "user-adaeze",
+    email: "adaeze@gorent.ng",
+    fullName: "Adaeze Okafor",
+    phone: "0701 555 3344",
+    avatarUrl: "/images/testimonial-adaeze.jpg",
+    roles: ["tenant"],
+    createdAt: "2024-11-02T09:00:00.000Z",
+  },
+];
+
+export const seedProperties: Property[] = [
+  {
+    id: "prop-lekki",
+    landlordId: "user-amaka",
+    slug: "2-bedroom-terrace-lekki-lagos",
+    title: "Sunny 2-bedroom terrace in Lekki Phase 1",
+    description:
+      "A well-kept terrace on a quiet street in Lekki Phase 1. Prepaid meter, estate security, and a small compound.",
+    address: "12 Admiralty Way",
+    city: "Lagos",
+    area: "Lekki",
+    propertyType: "terrace",
+    priceYearly: 3200000,
+    bedrooms: 2,
+    bathrooms: 3,
+    amenities: ["Prepaid meter", "Security", "Parking", "Estate", "Water"],
+    listingStatus: "live",
+    occupancyStatus: "vacant",
+    createdAt: "2026-04-02T10:00:00.000Z",
+    updatedAt: "2026-07-12T10:00:00.000Z",
+  },
+  {
+    id: "prop-ikoyi",
+    landlordId: "user-amaka",
+    slug: "1-bedroom-flat-ikoyi-lagos",
+    title: "1-bedroom flat near the lagoon, Ikoyi",
+    description:
+      "Compact, bright flat with built-in wardrobes and a working generator share. Walking distance to Falomo.",
+    address: "8 Keffi Street",
+    city: "Lagos",
+    area: "Ikoyi",
+    propertyType: "flat",
+    priceYearly: 1800000,
+    bedrooms: 1,
+    bathrooms: 1,
+    amenities: ["Generator", "Wardrobes", "Water", "Security"],
+    listingStatus: "live",
+    occupancyStatus: "occupied",
+    createdAt: "2025-09-20T10:00:00.000Z",
+    updatedAt: "2026-01-08T10:00:00.000Z",
+  },
+  {
+    id: "prop-gwarinpa",
+    landlordId: "user-ibrahim",
+    slug: "3-bedroom-apartment-gwarinpa-abuja",
+    title: "3-bedroom apartment in Gwarinpa",
+    description:
+      "Family apartment on a paved street in 1st Avenue. Borehole, parking for two cars, and a small boys’ quarters.",
+    address: "1st Avenue, 5th Avenue junction",
+    city: "Abuja",
+    area: "Gwarinpa",
+    propertyType: "apartment",
+    priceYearly: 4500000,
+    bedrooms: 3,
+    bathrooms: 3,
+    amenities: ["Borehole", "Parking", "Security", "POP ceiling", "Kitchen cabinets"],
+    listingStatus: "live",
+    occupancyStatus: "vacant",
+    createdAt: "2026-05-14T10:00:00.000Z",
+    updatedAt: "2026-08-01T10:00:00.000Z",
+  },
+];
+
+export const seedListingMedia: ListingMedia[] = [
+  { id: "media-lekki", propertyId: "prop-lekki", url: "/images/listing-lekki.jpg", kind: "photo", label: "Living", sortOrder: 0 },
+  { id: "media-ikoyi", propertyId: "prop-ikoyi", url: "/images/listing-ikoyi.jpg", kind: "photo", label: "Bedroom", sortOrder: 0 },
+  { id: "media-gwarinpa", propertyId: "prop-gwarinpa", url: "/images/listing-gwarinpa.jpg", kind: "photo", label: "Exterior", sortOrder: 0 },
+];
+
+export const seedItems: Item[] = [
+  {
+    id: "item-gen",
+    lenderId: "user-amaka",
+    slug: "elepaq-3-5kva-generator-ikeja-lagos",
+    title: "Elepaq 3.5kVA generator",
+    category: "generators",
+    description: "Reliable home generator. Comes with 5 litres of petrol to start. Pickup in Ikeja GRA after 5pm weekdays or anytime Saturday.",
+    condition: "good",
+    pricePerDay: 15000,
+    pricePerWeek: 80000,
+    pickupCity: "Lagos",
+    pickupArea: "Ikeja",
+    status: "available",
+    createdAt: "2026-06-01T10:00:00.000Z",
+    updatedAt: "2026-06-01T10:00:00.000Z",
+  },
+  {
+    id: "item-projector",
+    lenderId: "user-amaka",
+    slug: "epson-projector-lekki-lagos",
+    title: "Epson HD projector + screen",
+    category: "electronics",
+    description: "Great for birthdays and small office pitches. Includes HDMI cable and a 80-inch pull-up screen.",
+    condition: "like_new",
+    pricePerDay: 12000,
+    pricePerWeek: 60000,
+    pickupCity: "Lagos",
+    pickupArea: "Lekki",
+    status: "available",
+    createdAt: "2026-06-18T10:00:00.000Z",
+    updatedAt: "2026-06-18T10:00:00.000Z",
+  },
+  {
+    id: "item-sewing",
+    lenderId: "user-ibrahim",
+    slug: "industrial-sewing-machine-gwarinpa-abuja",
+    title: "Industrial sewing machine",
+    category: "tools",
+    description: "Butterfly industrial machine. You pick up and return the same week. Ideal for a short production run.",
+    condition: "good",
+    pricePerDay: 8000,
+    pricePerWeek: 40000,
+    pickupCity: "Abuja",
+    pickupArea: "Gwarinpa",
+    status: "available",
+    createdAt: "2026-07-04T10:00:00.000Z",
+    updatedAt: "2026-07-04T10:00:00.000Z",
+  },
+];
+
+export const seedItemMedia: ItemMedia[] = [
+  { id: "imedia-gen", itemId: "item-gen", url: "/images/listing-ikoyi.jpg", sortOrder: 0 },
+  { id: "imedia-proj", itemId: "item-projector", url: "/images/listing-lekki.jpg", sortOrder: 0 },
+  { id: "imedia-sew", itemId: "item-sewing", url: "/images/listing-gwarinpa.jpg", sortOrder: 0 },
+];
+
+export const seedTenancies: Tenancy[] = [
+  {
+    id: "ten-ikoyi",
+    propertyId: "prop-ikoyi",
+    tenantId: "user-adaeze",
+    landlordId: "user-amaka",
+    applicationId: "app-ikoyi",
+    startDate: "2026-01-15",
+    endDate: null,
+    createdAt: "2026-01-08T10:00:00.000Z",
+  },
+];
+
+export const seedReviews: Review[] = [
+  {
+    id: "rev-adaeze-amaka",
+    reviewerId: "user-adaeze",
+    revieweeId: "user-amaka",
+    tenancyId: "ten-ikoyi",
+    itemBookingId: null,
+    rating: 5,
+    comment: "Paid the asking price. Amaka was clear and on time.",
+    direction: "tenant_to_landlord",
+    createdAt: "2026-03-01T10:00:00.000Z",
+  },
+  {
+    id: "rev-amaka-adaeze",
+    reviewerId: "user-amaka",
+    revieweeId: "user-adaeze",
+    tenancyId: "ten-ikoyi",
+    itemBookingId: null,
+    rating: 5,
+    comment: "Quiet tenant, rent came in the week it was due.",
+    direction: "landlord_to_tenant",
+    createdAt: "2026-03-02T10:00:00.000Z",
+  },
+];
+
+export const seedBookings: ItemBooking[] = [
+  {
+    id: "book-gen-done",
+    itemId: "item-gen",
+    renterId: "user-chinedu",
+    lenderId: "user-amaka",
+    status: "completed",
+    startDate: "2026-07-10",
+    endDate: "2026-07-13",
+    agreedPrice: 45000,
+    message: "Need it for a weekend event in Ogba.",
+    createdAt: "2026-07-02T10:00:00.000Z",
+  },
+];

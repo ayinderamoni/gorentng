@@ -1,0 +1,17 @@
+---
+description: Supabase schema, RLS, and relationship rules
+globs: "{lib/**,app/actions/**,supabase/**}"
+alwaysApply: false
+---
+
+# Data
+
+Canonical SQL is `supabase/schema.sql`. Keep TypeScript types in `lib/types.ts` aligned.
+
+- Public read: live housing (`listing_status = 'live'`), available items (`status = 'available'`).
+- Owners only mutate their properties/items and child rows (media, maintenance, payments, availability).
+- Application **approved** → insert `tenancies` (nullable `end_date` while ongoing).
+- Item request **approved** → booking with dates + `agreed_price`; `completed` only when returned.
+- `item_availability` blocks cannot overlap an approved booking.
+- `reviews` must reference exactly one of `tenancy_id` or `item_booking_id`.
+- `reports` stores listing problems (optional property/landlord, evidence, anonymous allowed).

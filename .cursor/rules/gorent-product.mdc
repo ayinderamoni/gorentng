@@ -1,0 +1,24 @@
+---
+description: GoRent.ng product positioning and UX rules
+globs: "{app/**/*.tsx,components/**/*.tsx,lib/**/*.ts}"
+alwaysApply: true
+---
+
+# GoRent.ng product
+
+Nigerian rental marketplace. **Homes and item rentals are equal** (apartments, flats, rooms — and generators, tools, appliances). One profile, many roles — never separate accounts. Do not promise zero agency fees.
+
+## Always true
+
+- Homes and items share homepage, nav, and hierarchy. Use a visible Homes / Items toggle — never hide either.
+- No agency-fee banners, “no agents” guarantees, or “report a fee” chrome. `/report` is a generic listing-problem form.
+- Reviews only after a real `tenancy` or a **completed** `item_booking`.
+- Naira via `formatNaira`. Mobile-first, `next/image`, semantic HTML, alt text.
+- Roles are a set (`landlord` | `tenant` | `lender` | `renter`), not a single enum.
+
+```txt
+❌ Separate /landlord-login vs /tenant-login accounts
+✅ One /login; roles accrue from activity
+❌ Housing-first homepage that treats items as an afterthought
+✅ Equal weight for homes and items
+```

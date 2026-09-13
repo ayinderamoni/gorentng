@@ -1,0 +1,19 @@
+---
+description: Listing URLs, metadata, JSON-LD, and sitemap
+globs: "{app/**/*.tsx,app/sitemap.ts,app/robots.ts,lib/seo.ts}"
+alwaysApply: false
+---
+
+# SEO
+
+- Housing: `/listings/[slug]`. Items: `/rent-items/[slug]`. Do not add `/property/[id]` aliases.
+- Landings: `/rent/[city]/[area]`, `/rent-items/[category]/[city]`.
+- `generateMetadata` per listing: title + description from details, OG image = primary photo.
+
+```txt
+3-Bedroom Apartment for Rent in Lekki, Lagos — ₦4,500,000/year | GoRent.ng
+Generator for Rent in Ikeja, Lagos — ₦15,000/day | GoRent.ng
+```
+
+- Housing JSON-LD: `Apartment`/`Residence`. Items: `Product` + rental `Offer`.
+- `app/sitemap.ts` must include all live listings and landings. Keep `app/robots.ts` in sync.

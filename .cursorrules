@@ -1,0 +1,71 @@
+# GoRent.ng — Agent & Developer Reference
+
+Read this file before changing product, data, or UI. It is the source of truth for what this app is.
+
+## What this is
+
+GoRent.ng is a Nigerian rental marketplace for **homes and everyday items**. People list apartments, flats and rooms; people also rent out generators, tools, projectors and appliances. Both sides of the marketplace are first-class — same site, same account, same trust model.
+
+This is not a luxury real-estate aggregator and not two separate apps. Do not promise zero agency fees.
+
+## Non-negotiables
+
+- Homes and item rentals share homepage, nav, and visual weight. Never hide either marketplace.
+- Do not show agency-fee guarantees, “no agents”, or “report a fee” chrome. `/report` is a generic listing-problem form, not an anti-agency campaign.
+- One authenticated profile, many roles. Never force separate accounts for landlord / tenant / lender / renter.
+- Reviews require a real relationship: a `tenancy` (housing) or a **completed** `item_booking`. No drive-by reviews.
+- Currency is **naira (₦)** everywhere. Format with `formatNaira` from `lib/format.ts`.
+- Mobile-first, low bandwidth. `next/image` for photos. Semantic HTML, real heading hierarchy, alt text on every image.
+- Roles are a **flexible set** (`roles: string[]` or derived from activity), never a single enum that locks a user into one identity.
+
+## User roles (combinable)
+
+| Role | Can do |
+|---|---|
+| Landlord | List/edit properties, approve applications, manage tenancies, maintenance, rent payments, review tenants they have housed |
+| Tenant | Browse/apply, save listings, see tenancy history, review landlords they have rented from |
+| Item lender | List items, manage availability, approve bookings, mark returned, review renters after completed bookings |
+| Item renter | Request items, save items, rental history, review lenders after completed bookings |
+
+## Routes (do not invent parallel URL schemes)
+
+- Housing browse: `/listings` — detail: `/listings/[slug]`
+- Item browse: `/rent-items` — detail: `/rent-items/[slug]`
+- Housing SEO landings: `/rent/[city]/[area]` e.g. `/rent/lagos/lekki`
+- Item SEO landings: `/rent-items/[category]/[city]` e.g. `/rent-items/generators/lagos`
+- Report (listing problem): `/report`
+- Auth: `/login`, `/signup`
+- Dashboards: `/dashboard`, `/dashboard/landlord`, `/dashboard/tenant`, `/dashboard/lender`, `/dashboard/renter`
+
+## Stack
+
+- Next.js App Router (read `node_modules/next/dist/docs/` — this is Next 16; `params`/`searchParams` are Promises; use `proxy.ts` not `middleware.ts`)
+- Supabase Auth + Postgres + Storage, with RLS on every table (`supabase/schema.sql`)
+- Vercel host. Until Supabase env vars exist, the demo store in `lib/store` powers local flows.
+- Server Actions for mutations. Authorize inside every action.
+- Tailwind v4 + the cream / ink / teal / persimmon / ochre tokens in `app/globals.css`
+
+## Data rules
+
+- Public can read housing when `listing_status = 'live'` and items when `status = 'available'`.
+- Owners only edit their own properties/items and related records.
+- Approving a housing application **creates a tenancy** (tenant ↔ property ↔ landlord, `start_date`, nullable `end_date`).
+- Approving an item request **creates/activates a booking** with start/end and `agreed_price`. Lender marks `completed` on return.
+- Availability blocks on an item must prevent double-booking.
+- `reports` persists listing problems to the `reports` table/queue. No full admin UI required.
+
+## SEO
+
+- Every live listing is a server-rendered page with unique `generateMetadata` title, description, and OG image (primary photo).
+- Housing JSON-LD: schema.org `Apartment` / `Residence`. Items: `Product` + rental `Offer`.
+- Dynamic `app/sitemap.ts` and `app/robots.ts` include all live housing + item listings and city/category landings.
+
+## Design
+
+Warm, professional, trust-first. Homes and items should feel like one marketplace, not a property site with a side feature.
+
+## Build order (if unsure where to work)
+
+1. Auth + flexible profiles → 2. Property CRUD + media → 3. Public housing + SEO → 4. Apply/approve/tenancy → 5. Landlord dashboard → 6. Tenant dashboard → 7. Housing reviews → 8. Report form → 9–14 items (CRUD, browse, bookings, dashboards, reviews) → 15. SEO landings + sitemap.
+
+Keep both marketplaces working; do not starve item rentals to finish housing polish.
